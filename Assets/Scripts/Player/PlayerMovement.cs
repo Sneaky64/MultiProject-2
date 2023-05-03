@@ -7,12 +7,11 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     #region Variables, Awake and Start
-    public float moveSpeed, jumpSpeed, jumpTime, gravityScale, fallMult, smoothTime;
+    public float jumpSpeed, jumpTime, gravityScale, fallMult, acceleration, maxVelocity, currentVelocity, accelerationMultiplier;
 
     float jumpCount;
     Animator animator;
 
-    float smoothInputVelocity;
     bool flipped, grounded, doubleFix;
     int flipInput = 1;
 
@@ -35,8 +34,8 @@ public class PlayerMovement : MonoBehaviour
     {
         animator.SetFloat("y", rb.velocity.y);
         animator.SetBool("grounded", grounded);
-        Move();
         Jump();
+        Move();
     }
 
 
@@ -44,24 +43,31 @@ public class PlayerMovement : MonoBehaviour
     #region Custom Functions
     void Move()
     {
-        float smoothedInput = 0;
+        if (!grounded)
+            return;
 
         float dir = input.InGame.Move.ReadValue<float>();
 
-        if (dir < 0) { flipInput = -1; }
-        else if (dir > 0) { flipInput = 1; }
+        if(dir == 0)
+        {
+            float x = Mathf.Clamp(-currentVelocity, -acceleration*Time.deltaTime, acceleration * Time.deltaTime);
+            currentVelocity += x;
+        }
+        else
+        {
+            currentVelocity = Mathf.Clamp(currentVelocity + dir * acceleration * Time.deltaTime, -maxVelocity, maxVelocity);
+        }
 
-        smoothedInput = Mathf.SmoothDamp(smoothedInput, dir * flipInput, ref smoothInputVelocity, smoothTime);
+        if (Mathf.Abs(currentVelocity) <= 0.01)
+            currentVelocity = 0;
 
-        smoothedInput *= moveSpeed * flipInput;
+        Vector2 velocity = new Vector2(currentVelocity, rb.velocity.y);
 
-        Vector2 move = smoothedInput * Vector2.right;
-
-        if (flipped && move.x > 0)
+        if (flipped && dir > 0)
         {
             flipped = false;
         }
-        else if (!flipped && move.x < 0)
+        else if (!flipped && dir < 0)
         {
             flipped = true;
         }
@@ -74,7 +80,8 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetInteger("x", 0);
         }
-        rb.velocity = new Vector2(move.x / Time.deltaTime, rb.velocity.y);
+
+        rb.velocity = velocity;
     }
 
 
