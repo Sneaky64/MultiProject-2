@@ -7,14 +7,26 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     #region Variables, Awake and Start
-    public float jumpSpeed, jumpTime, gravityScale, fallMult, acceleration, maxVelocity, currentVelocity, accelerationMultiplier;
+    
+    [Header("Jump Settings")]
+    public float jumpSpeed;
+    public float jumpTime;
+    public float airTimeVelocity;
+    public float airTimeGravMult;
+    public float gravityScale;
+    public float fallMult;
 
-    float jumpCount;
-    Animator animator;
+    [Space, Header("Movement Settings")]
+    public float acceleration;
+    public float accelerationMultiplier;
+    public float maxVelocity;
 
     bool flipped, grounded, doubleFix;
+    float jumpCount, currentVelocity, airCount;
     int flipInput = 1;
 
+
+    Animator animator;
     MasterInput input;
     Rigidbody2D rb;
     SpriteRenderer playerSprite;
@@ -43,12 +55,14 @@ public class PlayerMovement : MonoBehaviour
     #region Custom Functions
     void Move()
     {
-        if (!grounded)
-            return;
-
         float dir = input.InGame.Move.ReadValue<float>();
 
-        if(dir == 0)
+        if (currentVelocity > 0 && dir < 0)
+            currentVelocity = 0;
+        if (currentVelocity < 0 && dir > 0)
+            currentVelocity = 0;
+
+        if (dir == 0)
         {
             float x = Mathf.Clamp(-currentVelocity, -acceleration*Time.deltaTime, acceleration * Time.deltaTime);
             currentVelocity += x;
@@ -62,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
             currentVelocity = 0;
 
         Vector2 velocity = new Vector2(currentVelocity, rb.velocity.y);
-
+        #region Animator / Sprite
         if (flipped && dir > 0)
         {
             flipped = false;
@@ -80,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetInteger("x", 0);
         }
-
+        #endregion
         rb.velocity = velocity;
     }
 
@@ -94,10 +108,15 @@ public class PlayerMovement : MonoBehaviour
             jumpCount -= Time.deltaTime;
             return;
         }
+        else if (rb.velocity.y > -airTimeVelocity && rb.velocity.y < airTimeVelocity && !grounded)
+        {
+            rb.gravityScale = gravityScale * airTimeGravMult;
+            return;
+        }
         else if (!grounded)
         {
             doubleFix = true;
-            rb.gravityScale = fallMult;
+            rb.gravityScale = fallMult*gravityScale;
         }
         if(grounded)
         {
