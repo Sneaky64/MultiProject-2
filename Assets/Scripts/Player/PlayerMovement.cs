@@ -11,14 +11,16 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jump Settings")]
     public float jumpSpeed;
     public float jumpTime;
+    public float jumpAccelerationMultiplier;
     public float airTimeVelocity;
     public float airTimeGravMult;
     public float gravityScale;
     public float fallMult;
 
+
     [Space, Header("Movement Settings")]
     public float acceleration;
-    public float accelerationMultiplier;
+    float accelerationMultiplier;
     public float maxVelocity;
 
     bool flipped, grounded, doubleFix;
@@ -42,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
     #region Update, FixedUpdate
-    private void Update()
+    private void FixedUpdate()
     {
         animator.SetFloat("y", rb.velocity.y);
         animator.SetBool("grounded", grounded);
@@ -55,6 +57,10 @@ public class PlayerMovement : MonoBehaviour
     #region Custom Functions
     void Move()
     {
+        if (!grounded)
+            accelerationMultiplier = jumpAccelerationMultiplier;
+        else
+            accelerationMultiplier = 1;
         float dir = input.InGame.Move.ReadValue<float>();
 
         if (currentVelocity > 0 && dir < 0)
@@ -65,11 +71,11 @@ public class PlayerMovement : MonoBehaviour
         if (dir == 0)
         {
             float x = Mathf.Clamp(-currentVelocity, -acceleration*Time.deltaTime, acceleration * Time.deltaTime);
-            currentVelocity += x;
+            currentVelocity += x*accelerationMultiplier;
         }
         else
         {
-            currentVelocity = Mathf.Clamp(currentVelocity + dir * acceleration * Time.deltaTime, -maxVelocity, maxVelocity);
+            currentVelocity = Mathf.Clamp(currentVelocity + dir * acceleration * accelerationMultiplier * Time.deltaTime, -maxVelocity, maxVelocity);
         }
 
         if (Mathf.Abs(currentVelocity) <= 0.01)
