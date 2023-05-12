@@ -22,10 +22,11 @@ public class PlayerMovement : MonoBehaviour
     public float acceleration;
     float accelerationMultiplier;
     public float maxVelocity;
+    public float turnSpeed;
+    float prevDirection;
 
     bool flipped, grounded, doubleFix;
-    float jumpCount, currentVelocity, airCount;
-    int flipInput = 1;
+    float jumpCount, currentVelocity;
 
 
     Animator animator;
@@ -63,10 +64,7 @@ public class PlayerMovement : MonoBehaviour
             accelerationMultiplier = 1;
         float dir = input.InGame.Move.ReadValue<float>();
 
-        if (currentVelocity > 0 && dir < 0)
-            currentVelocity = 0;
-        if (currentVelocity < 0 && dir > 0)
-            currentVelocity = 0;
+        prevDirection = dir;
 
         if (dir == 0)
         {
@@ -80,6 +78,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (Mathf.Abs(currentVelocity) <= 0.01)
             currentVelocity = 0;
+
+        if (currentVelocity > turnSpeed && dir < 0 && dir != prevDirection)
+            currentVelocity = turnSpeed;
+        if (currentVelocity < -turnSpeed && dir > 0 && dir != prevDirection)
+            currentVelocity = -turnSpeed;
 
         Vector2 velocity = new Vector2(currentVelocity, rb.velocity.y);
         #region Animator / Sprite
@@ -101,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetInteger("x", 0);
         }
         #endregion
+        Debug.Log(currentVelocity);
         rb.velocity = velocity;
     }
 
