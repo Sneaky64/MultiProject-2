@@ -86,11 +86,11 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 velocity = new Vector2(currentVelocity, rb.velocity.y);
         #region Animator / Sprite
-        if (flipped && dir > 0)
+        if (flipped && currentVelocity > 0)
         {
             flipped = false;
         }
-        else if (!flipped && dir < 0)
+        else if (!flipped && currentVelocity < 0)
         {
             flipped = true;
         }
