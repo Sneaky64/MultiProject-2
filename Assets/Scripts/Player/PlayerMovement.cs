@@ -107,8 +107,6 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log(currentVelocity);
         rb.velocity = velocity;
     }
-
-
     void Jump()
     {
         if(input.InGame.Jump.IsPressed() && jumpCount > 0 && doubleFix == false)
@@ -133,10 +131,17 @@ public class PlayerMovement : MonoBehaviour
             doubleFix = false;
             jumpCount = jumpTime;
             rb.gravityScale = gravityScale;
-        }
-    }
+		}
+	}
 
-    public void SetGroundedState(bool grounded_)
+	public void RoofHit()
+	{
+		rb.velocity = new Vector2(rb.velocity.x, 0f);
+
+        jumpCount = 0f;
+	}
+
+	public void SetGroundedState(bool grounded_)
     {
         grounded = grounded_;
     }
