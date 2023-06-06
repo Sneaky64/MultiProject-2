@@ -20,10 +20,10 @@ public class PlayerMovement : MonoBehaviour
 
     [Space, Header("Movement Settings")]
     public float acceleration;
+    public float inverseAccMulti;
     float accelerationMultiplier;
     public float maxVelocity;
     public float turnSpeed;
-    float prevDirection;
 
     bool flipped, grounded, doubleFix;
     float jumpCount, currentVelocity;
@@ -58,33 +58,32 @@ public class PlayerMovement : MonoBehaviour
     #region Custom Functions
     void Move()
     {
-        if (!grounded)
-            accelerationMultiplier = jumpAccelerationMultiplier;
-        else
-            accelerationMultiplier = 1;
         float dir = input.InGame.Move.ReadValue<float>();
+        float accConst = 1;
 
-        prevDirection = dir;
+        if (dir + currentVelocity < currentVelocity == currentVelocity>0 || dir + currentVelocity > currentVelocity == currentVelocity < 0)
+            accConst = inverseAccMulti;
 
-        if (dir == 0)
+        currentVelocity += dir * acceleration * accConst * Time.deltaTime;
+        
+        if(dir == 0)
+		{
+            currentVelocity += -Mathf.Clamp(currentVelocity, -1f, 1f) * acceleration * accConst * Time.deltaTime;
+		}
+
+        if (currentVelocity >= maxVelocity)
+            currentVelocity = maxVelocity;
+        if (currentVelocity <= -maxVelocity)
+            currentVelocity = -maxVelocity;
+
+        if (-0.1f < currentVelocity == currentVelocity < 0 || currentVelocity < 0.1f == currentVelocity > 0 && dir == 0)
         {
-            float x = Mathf.Clamp(-currentVelocity, -acceleration*Time.deltaTime, acceleration * Time.deltaTime);
-            currentVelocity += x*accelerationMultiplier;
-        }
-        else
-        {
-            currentVelocity = Mathf.Clamp(currentVelocity + dir * acceleration * accelerationMultiplier * Time.deltaTime, -maxVelocity, maxVelocity);
-        }
-
-        if (Mathf.Abs(currentVelocity) <= 0.01)
             currentVelocity = 0;
+        }
 
-        if (currentVelocity > turnSpeed && dir < 0 && dir != prevDirection)
-            currentVelocity = turnSpeed;
-        if (currentVelocity < -turnSpeed && dir > 0 && dir != prevDirection)
-            currentVelocity = -turnSpeed;
+        Debug.Log(accConst);
+        rb.velocity = new Vector2(currentVelocity, rb.velocity.y);
 
-        Vector2 velocity = new Vector2(currentVelocity, rb.velocity.y);
         #region Animator / Sprite
         if (flipped && currentVelocity > 0)
         {
@@ -104,8 +103,6 @@ public class PlayerMovement : MonoBehaviour
             animator.SetInteger("x", 0);
         }
         #endregion
-        Debug.Log(currentVelocity);
-        rb.velocity = velocity;
     }
     void Jump()
     {
