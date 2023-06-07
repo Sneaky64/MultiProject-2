@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class GroundCheck : MonoBehaviour
+public class CollisionCheck : MonoBehaviour
 {
     #region Variables, Awake and Start
     public PlayerMovement player;
+
+    public UnityEvent StayEvent, ExitEvent, EnterEvent;
+
     #endregion
     #region Custom Functions
 
@@ -13,19 +17,19 @@ public class GroundCheck : MonoBehaviour
     {
         if (collision.gameObject == player.gameObject)
             return;
-        player.SetGroundedState(true);
+        StayEvent.Invoke();
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject == player.gameObject)
             return;
-        player.SetGroundedState(false);
+        ExitEvent.Invoke();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject == player.gameObject)
             return;
-        player.SetGroundedState(true);
+        EnterEvent.Invoke();
     }
 
     #endregion

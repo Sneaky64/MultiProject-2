@@ -50,6 +50,12 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("y", rb.velocity.y);
         animator.SetBool("grounded", grounded);
         Jump();
+        if (!grounded)
+            accelerationMultiplier = jumpAccelerationMultiplier;
+        else
+        {
+            accelerationMultiplier = 1f;
+        }
         Move();
     }
 
@@ -59,29 +65,34 @@ public class PlayerMovement : MonoBehaviour
     void Move()
     {
         float dir = input.InGame.Move.ReadValue<float>();
-        float accConst = 1;
-
-        if (dir + currentVelocity < currentVelocity == currentVelocity>0 || dir + currentVelocity > currentVelocity == currentVelocity < 0)
+        float accConst;
+        if ((dir + currentVelocity < currentVelocity && currentVelocity > 0) || (dir + currentVelocity > currentVelocity && currentVelocity < 0))
+        {
             accConst = inverseAccMulti;
-
-        currentVelocity += dir * acceleration * accConst * Time.deltaTime;
+        }
+        else 
+        {
+            accConst = 1;
+        }
+        
+        
+        currentVelocity += dir * acceleration * accConst * accelerationMultiplier * Time.deltaTime;
         
         if(dir == 0)
 		{
-            currentVelocity += -Mathf.Clamp(currentVelocity, -1f, 1f) * acceleration * accConst * Time.deltaTime;
+            currentVelocity += -Mathf.Clamp(currentVelocity, -1f, 1f) * acceleration * accConst * accelerationMultiplier * Time.deltaTime;
 		}
 
         if (currentVelocity >= maxVelocity)
             currentVelocity = maxVelocity;
         if (currentVelocity <= -maxVelocity)
             currentVelocity = -maxVelocity;
-
-        if (-0.1f < currentVelocity == currentVelocity < 0 || currentVelocity < 0.1f == currentVelocity > 0 && dir == 0)
+        float checkSpeed = acceleration * accelerationMultiplier * Time.deltaTime / turnSpeed;
+        if (-checkSpeed < currentVelocity && currentVelocity < 0 || currentVelocity < checkSpeed && currentVelocity > 0 && dir == 0)
         {
             currentVelocity = 0;
         }
 
-        Debug.Log(accConst);
         rb.velocity = new Vector2(currentVelocity, rb.velocity.y);
 
         #region Animator / Sprite
@@ -128,10 +139,21 @@ public class PlayerMovement : MonoBehaviour
             doubleFix = false;
             jumpCount = jumpTime;
             rb.gravityScale = gravityScale;
+            rb.velocity = new Vector2(0,-0.1f);
 		}
 	}
 
-	public void RoofHit()
+    public void ResetJump()
+    {
+
+    }
+
+    private void OnValidate()
+    {
+        turnSpeed = Mathf.Max(turnSpeed, 1f);
+    }
+
+    public void RoofHit()
 	{
 		rb.velocity = new Vector2(rb.velocity.x, 0f);
 
