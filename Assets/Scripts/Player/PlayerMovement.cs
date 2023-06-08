@@ -75,7 +75,6 @@ public class PlayerMovement : MonoBehaviour
             accConst = 1;
         }
         
-        
         currentVelocity += dir * acceleration * accConst * accelerationMultiplier * Time.deltaTime;
         
         if(dir == 0)
@@ -142,12 +141,6 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(0,-0.1f);
 		}
 	}
-
-    public void ResetJump()
-    {
-
-    }
-
     private void OnValidate()
     {
         turnSpeed = Mathf.Max(turnSpeed, 1f);
@@ -158,6 +151,8 @@ public class PlayerMovement : MonoBehaviour
 		rb.velocity = new Vector2(rb.velocity.x, 0f);
 
         jumpCount = 0f;
+
+        Debug.Log("cool");
 	}
 
 	public void SetGroundedState(bool grounded_)
