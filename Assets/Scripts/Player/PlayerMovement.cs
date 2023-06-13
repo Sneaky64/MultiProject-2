@@ -7,16 +7,6 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     #region Variables, Awake and Start
-    
-    [Header("Jump Settings")]
-    public float jumpSpeed;
-    public float jumpTime;
-    public float jumpAccelerationMultiplier;
-    public float airTimeVelocity;
-    public float airTimeGravMult;
-    public float gravityScale;
-    public float fallMult;
-
 
     [Space, Header("Movement Settings")]
     public float acceleration;
@@ -28,11 +18,27 @@ public class PlayerMovement : MonoBehaviour
     bool flipped, grounded, doubleFix;
     float jumpCount, currentVelocity;
 
+    [Header("Jump Settings")]
+    public float jumpSpeed;
+    public float jumpTime;
+    public float jumpAccelerationMultiplier;
+    public float airTimeVelocity;
+    public float airTimeGravMult;
+    public float gravityScale;
+    public float fallMult;
+
+
+
+    [Space, Header("Wall Jump Settings")]
+    public Vector2 jumpDir;
+    bool touchingWall;
 
     Animator animator;
     MasterInput input;
     Rigidbody2D rb;
     SpriteRenderer playerSprite;
+
+    Vector3 defaultScale;
 
     private void Awake()
     {
@@ -41,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
 
         input = new MasterInput();
+
+        defaultScale = transform.localScale;
     }
 
     #endregion
@@ -62,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
     #region Custom Functions
+    #region Base Movement
     void Move()
     {
         float dir = input.InGame.Move.ReadValue<float>();
@@ -95,17 +104,10 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(currentVelocity, rb.velocity.y);
 
         #region Animator / Sprite
-        if (flipped && currentVelocity > 0)
-        {
-            flipped = false;
-        }
-        else if (!flipped && currentVelocity < 0)
-        {
-            flipped = true;
-        }
-        playerSprite.flipX = flipped;
+        
         if (dir != 0)
         {
+            transform.localScale = new Vector3(dir * defaultScale.x, defaultScale.y, defaultScale.z);
             animator.SetInteger("x", 1);
         }
         else
@@ -141,18 +143,22 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(0,-0.1f);
 		}
 	}
+    #endregion
     private void OnValidate()
     {
         turnSpeed = Mathf.Max(turnSpeed, 1f);
     }
 
-    public void RoofHit()
+    public void SetWallTouch(bool isTouching)
+    {
+
+    }
+
+    public void ResetJump()
 	{
 		rb.velocity = new Vector2(rb.velocity.x, 0f);
 
         jumpCount = 0f;
-
-        Debug.Log("cool");
 	}
 
 	public void SetGroundedState(bool grounded_)
