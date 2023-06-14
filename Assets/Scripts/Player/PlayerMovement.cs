@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public float maxVelocity;
     public float turnSpeed;
 
-    bool flipped, grounded, doubleFix;
+    bool grounded, doubleFix;
     float jumpCount, currentVelocity;
 
     [Header("Jump Settings")]
@@ -31,6 +31,10 @@ public class PlayerMovement : MonoBehaviour
 
     [Space, Header("Wall Jump Settings")]
     public Vector2 jumpDir;
+    public float slideTime;
+    public float wallJumpForce;
+    public float slideGravity;
+    float slideCount;
     bool touchingWall;
 
     Animator animator;
@@ -53,11 +57,16 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
     #region Update, FixedUpdate
-    private void FixedUpdate()
+    private void Update()
     {
         animator.SetFloat("y", rb.velocity.y);
         animator.SetBool("grounded", grounded);
-        Jump();
+        if(!touchingWall)
+        {
+            Jump();
+        }
+        if (touchingWall)
+            WallJump();
         if (!grounded)
             accelerationMultiplier = jumpAccelerationMultiplier;
         else
@@ -68,10 +77,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    #endregion
-    #region Custom Functions
-    #region Base Movement
-    void Move()
+	#endregion
+	#region Custom Functions
+	#region Base Movement
+	void Move()
     {
         float dir = input.InGame.Move.ReadValue<float>();
         float accConst;
@@ -128,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
         else if (rb.velocity.y > -airTimeVelocity && rb.velocity.y < airTimeVelocity && !grounded)
         {
             rb.gravityScale = gravityScale * airTimeGravMult;
+            Debug.Log("uncool code");
             return;
         }
         else if (!grounded)
@@ -144,29 +154,57 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
     #endregion
-    private void OnValidate()
+
+    private void WallJump()
+    {
+        slideCount -= Time.deltaTime;
+        if (slideCount <= 0)
+        {
+            rb.gravityScale = slideGravity;
+            Debug.Log("this stupid");
+            Debug.Log(slideCount);
+        }
+        if (slideCount > 0)
+		{
+            ResetJump();
+            rb.gravityScale = 0;
+        }
+        if (input.InGame.Jump.IsPressed())
+        {
+            rb.velocity = jumpDir * wallJumpForce;
+        }
+    }
+	
+	private void OnValidate()
     {
         turnSpeed = Mathf.Max(turnSpeed, 1f);
     }
-
-    public void SetWallTouch(bool isTouching)
-    {
-
-    }
-
     public void ResetJump()
-	{
-		rb.velocity = new Vector2(rb.velocity.x, 0f);
+    {
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
 
         jumpCount = 0f;
-	}
+    }
+	#region Variable Access
+	public void SetWallTouch(bool isTouching)
+    {
+        Debug.Log("not work");
+        touchingWall = isTouching;
+        if (grounded)
+            touchingWall = false;
+        if (touchingWall)
+            slideCount = slideTime;
+        if (!touchingWall)
+            slideCount = 0f;
+    }
 
 	public void SetGroundedState(bool grounded_)
     {
         grounded = grounded_;
     }
-
-    private void OnEnable()
+	#endregion
+	#region Enable / Disable
+	private void OnEnable()
     {
         input.Enable();
     }
@@ -174,5 +212,6 @@ public class PlayerMovement : MonoBehaviour
     {
         input.Disable();
     }
-    #endregion
+	#endregion
+	#endregion
 }
