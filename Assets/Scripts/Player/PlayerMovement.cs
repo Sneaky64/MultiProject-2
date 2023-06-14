@@ -70,13 +70,14 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("y", rb.velocity.y);
         animator.SetBool("grounded", grounded);
 
-        if (!touchingWall || rb.velocity.y >=0f)
+
+        if (!touchingWall || rb.velocity.y >= 0f || input.InGame.Drop.IsPressed())
         {
             wallDoubleFix = false;
             Jump();
         }
 
-        if (touchingWall && (rb.velocity.y <=0f || !input.InGame.Jump.IsPressed()))
+        if (touchingWall && (rb.velocity.y <=0f || !input.InGame.Jump.IsPressed()) && !input.InGame.Drop.IsPressed())
             WallJump();
 
         if (!grounded)
