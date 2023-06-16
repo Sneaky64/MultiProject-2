@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
         moveDelayCount -= Time.deltaTime;
         animator.SetFloat("y", rb.velocity.y);
         animator.SetBool("grounded", grounded);
-
+        animator.SetBool("touchingWall", touchingWall);
 
         if (!touchingWall || rb.velocity.y >= 0f || input.InGame.Drop.IsPressed())
         {
@@ -112,7 +112,10 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
-
+    public void FlipCharacter()
+	{
+        transform.localScale = new Vector3(defaultScale.x *-1f, defaultScale.y, defaultScale.z);
+    }
     #endregion
     #region Custom Functions
     #region Base Movement
