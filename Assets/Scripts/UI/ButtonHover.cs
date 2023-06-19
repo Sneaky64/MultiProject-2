@@ -18,11 +18,11 @@ public class ButtonHover : MonoBehaviour
 	}
 	public void ScalingMouseOver()
 	{
-		LeanTween.value(fontSize_, fontSize_ * scaleFactor, scaleTime).setEaseOutExpo().setOnUpdate(TweenText);
+		LeanTween.value(fontSize_, fontSize_ * scaleFactor, scaleTime).setEaseOutQuart().setOnUpdate(TweenText);
 	}
 	public void ScalingMouseOut()
 	{
-		LeanTween.value(text.fontSize, fontSize_, scaleTime).setEaseOutExpo().setOnUpdate(TweenText);
+		LeanTween.value(text.fontSize, fontSize_, scaleTime).setEaseOutQuart().setOnUpdate(TweenText);
 	}
 	public void TweenText(float size)
 	{
