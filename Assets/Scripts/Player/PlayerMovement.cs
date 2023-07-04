@@ -149,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
 
         float checkSpeed = acceleration * accelerationMultiplier * Time.deltaTime / turnSpeed;
 
-        if (-checkSpeed < currentVelocity && currentVelocity < 0 || currentVelocity < checkSpeed && currentVelocity > 0 && dir == 0)
+        if (-checkSpeed > currentVelocity && currentVelocity < 0 || currentVelocity < checkSpeed && currentVelocity > 0 && dir == 0)
         {
             currentVelocity = 0;
         }
@@ -169,7 +169,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (rb.velocity.y > -airTimeVelocity && rb.velocity.y < airTimeVelocity && !grounded)
         {
-            Debug.Log("executed");
             rb.gravityScale = gravityScale * airTimeGravMult;
             return;
         }
