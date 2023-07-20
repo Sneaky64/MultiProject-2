@@ -14,25 +14,36 @@ public class ButtonHover : MonoBehaviour
 	public GameObject lightOff;
 	public GameObject lightOn;
 
+	bool hovering = false;
+	bool pressed = false;
+
 	private void Start()
 	{
 		//text = GetComponentInChildren<TMP_Text>();
 		//fontSize_ = text.fontSize;
 	}
-	public void MouseOver()
-	{
-		lightOff.SetActive(false);
-		lightOn.SetActive(true);
-		//LeanTween.value(fontSize_, fontSize_ * scaleFactor, scaleTime).setEaseOutQuart().setOnUpdate(TweenText);
-	}
-	public void MouseOut()
-	{
+    private void Update()
+    {
+        if(hovering || pressed)
+        {
+			lightOff.SetActive(false);
+			lightOn.SetActive(true);
+			return;
+		}
 		lightOff.SetActive(true);
 		lightOn.SetActive(false);
-		//LeanTween.value(text.fontSize, fontSize_, scaleTime).setEaseOutQuart().setOnUpdate(TweenText);
 	}
-	public void TweenText(float size)
+    public void SetHover(bool hovering_)
 	{
-		text.fontSize = size;
+		hovering = hovering_;
+		//LeanTween.value(fontSize_, fontSize_ * scaleFactor, scaleTime).setEaseOutQuart().setOnUpdate(TweenText);
+	}
+    public void SetPressed(bool pressed_)
+    {
+		pressed = pressed_;
+    }
+    public void TweenText(float size)
+	{
+		//text.fontSize = size;
 	}
 }
