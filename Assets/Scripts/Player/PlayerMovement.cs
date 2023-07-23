@@ -149,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
 
         float checkSpeed = acceleration * accelerationMultiplier * Time.deltaTime / turnSpeed;
 
-        if (-checkSpeed > currentVelocity && currentVelocity < 0 || currentVelocity < checkSpeed && currentVelocity > 0 && dir == 0)
+        if (-checkSpeed < currentVelocity && currentVelocity < 0 || currentVelocity < checkSpeed && currentVelocity > 0 && dir == 0)
         {
             currentVelocity = 0;
         }
