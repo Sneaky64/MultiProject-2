@@ -30,8 +30,11 @@ public class ButtonHover : MonoBehaviour
 			lightOn.SetActive(true);
 			return;
 		}
-		lightOff.SetActive(true);
-		lightOn.SetActive(false);
+        else
+		{
+			lightOff.SetActive(true);
+			lightOn.SetActive(false);
+		}
 	}
     public void SetHover(bool hovering_)
 	{
