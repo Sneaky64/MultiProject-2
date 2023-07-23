@@ -5,17 +5,13 @@ using UnityEngine;
 public class BackgroundScroll : MonoBehaviour
 {
 
+    public float speed;
 
+    [SerializeField]
+    private Renderer bgRenderer;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        bgRenderer.material.mainTextureOffset += new Vector2(speed * Time.deltaTime, 0);
     }
 }
