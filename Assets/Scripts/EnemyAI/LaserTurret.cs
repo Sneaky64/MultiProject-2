@@ -41,14 +41,13 @@ public class LaserTurret : MonoBehaviour
         if (hit.collider != null)
             hit.collider.gameObject.GetComponent<IKillable>()?.Kill();
 
-        LeanTween.value(laserRenderer.GetPosition(1).x, hit.distance, activateTime).setEaseOutQuint().setOnUpdate(SetLength);
-        Debug.Log(laserRenderer.GetPosition(1).x);
+        LeanTween.value(laserRenderer.GetPosition(1).x, hit.distance, activateTime).setEaseOutQuint().setOnUpdate(SetLength).setIgnoreTimeScale(true);
         return;
     }
 
     public void DeactivateLaser()
     {
-        LeanTween.value(laserRenderer.GetPosition(1).x, 0, activateTime).setEaseOutQuint().setOnUpdate(SetLength);
+        LeanTween.value(laserRenderer.GetPosition(1).x, 0, activateTime).setEaseOutQuint().setOnUpdate(SetLength).setIgnoreTimeScale(true);
     }
 
     void SetLength(float value)

@@ -25,6 +25,11 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(LevelTransition(SceneManager.GetActiveScene().buildIndex));
     }
 
+    public void SetTimeScale(float scale)
+    {
+        Time.timeScale = scale;
+    }
+
     private void Update()
     {
         if(SceneManager.GetActiveScene().buildIndex != 0)
