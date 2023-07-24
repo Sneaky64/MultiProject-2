@@ -41,6 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5644788607105065963}
+  - component: {fileID: 5058275890816255087}
   m_Layer: 0
   m_Name: LaserTurret
   m_TagString: Untagged
@@ -65,6 +66,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!114 &5058275890816255087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5644788607105065962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a36a8d5b3a8b4a4b918f48f7de11c9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laserRenderer: {fileID: 5384107643254275783}
+  laserDelays: 3
+  firingTime: 4
+  activateTime: 0.35
+  laserVisualMask:
+    serializedVersion: 2
+    m_Bits: 2147483647
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 2147483647
+  firePoint: {fileID: 5644788606644510106}
 --- !u!1 &5644788607340906431
 GameObject:
   m_ObjectHideFlags: 0

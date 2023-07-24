@@ -6,6 +6,7 @@ public class LaserTurret : MonoBehaviour
 {
     public LineRenderer laserRenderer;
     public float laserDelays, firingTime;
+    public float activateTime;
     public LayerMask laserVisualMask, playerMask;
     public Transform firePoint;
 
@@ -17,9 +18,9 @@ public class LaserTurret : MonoBehaviour
     }
     private void Update()
     {
+        LaserVisuals();
         if (active)
         {
-            LaserVisuals();
             LaserHits();
         }
         else
@@ -37,11 +38,24 @@ public class LaserTurret : MonoBehaviour
 
     private void LaserVisuals()
     {
-        Vector2 position = new Vector2(firePoint.position.x, firePoint.position.y);
-        RaycastHit2D hit = Physics2D.Raycast(firePoint.position, transform.TransformDirection(Vector2.left), 100f, laserVisualMask);
        
-        laserRenderer.SetPosition(1, new Vector3(hit.distance, 0, 0));
+        if(active)
+        {
+            Vector2 position = new Vector2(firePoint.position.x, firePoint.position.y);
+            RaycastHit2D hit = Physics2D.Raycast(firePoint.position, transform.TransformDirection(Vector2.left), 100f, laserVisualMask);
+
+            LeanTween.value(laserRenderer.GetPosition(1).x, hit.distance, activateTime).setEaseOutQuint().setOnUpdate(SetLength);
+        }
+        else
+            LeanTween.value(laserRenderer.GetPosition(1).x, 0, activateTime).setEaseOutQuint().setOnUpdate(SetLength);
+
+
     }
+
+    void SetLength(float value)
+    {
+        laserRenderer.SetPosition(1, new Vector3(value, 0, 0));
+    }    
 
     private IEnumerator LaserLogic()
     {

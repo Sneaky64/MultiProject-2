@@ -5,11 +5,11 @@ using TMPro;
 
 public class ButtonHover : MonoBehaviour
 {
-	//public float scaleFactor;
-	//public float scaleTime;
-	//float fontSize_;
+	public float scaleFactor;
+	public float scaleTime;
+	float fontSize_;
 
-	//TMP_Text text;
+	TMP_Text text;
 
 	public GameObject lightOff;
 	public GameObject lightOn;
@@ -17,13 +17,17 @@ public class ButtonHover : MonoBehaviour
 	bool hovering = false;
 	bool pressed = false;
 
+	public bool scale = false;
+
 	private void Start()
 	{
-		//text = GetComponentInChildren<TMP_Text>();
-		//fontSize_ = text.fontSize;
+		text = GetComponentInChildren<TMP_Text>();
+		fontSize_ = text.fontSize;
 	}
     private void Update()
     {
+		if (lightOff == null || lightOn == null)
+			return;
         if(hovering || pressed)
         {
 			lightOff.SetActive(false);
@@ -39,7 +43,13 @@ public class ButtonHover : MonoBehaviour
     public void SetHover(bool hovering_)
 	{
 		hovering = hovering_;
-		//LeanTween.value(fontSize_, fontSize_ * scaleFactor, scaleTime).setEaseOutQuart().setOnUpdate(TweenText);
+
+		Debug.Log("called");
+
+		if(hovering && scale)
+			LeanTween.value(text.fontSize, fontSize_ * scaleFactor, scaleTime).setEaseOutQuart().setOnUpdate(TweenText);
+		if(!hovering && scale)
+			LeanTween.value(text.fontSize, fontSize_, scaleTime).setEaseOutQuart().setOnUpdate(TweenText);
 	}
     public void SetPressed(bool pressed_)
     {
@@ -47,6 +57,6 @@ public class ButtonHover : MonoBehaviour
     }
     public void TweenText(float size)
 	{
-		//text.fontSize = size;
+		text.fontSize = size;
 	}
 }

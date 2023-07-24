@@ -53,6 +53,24 @@ public partial class @MasterInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""dd2b8b77-d15c-4988-808b-c03cb76409bd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""d44af8c2-a166-42d3-9d43-c094b2adce29"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -154,6 +172,28 @@ public partial class @MasterInput : IInputActionCollection2, IDisposable
                     ""action"": ""Drop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e902805f-921b-4692-a433-fd23373cb9a4"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2deb1fe2-ef6a-4e6f-b6be-5006a01ce395"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -165,6 +205,8 @@ public partial class @MasterInput : IInputActionCollection2, IDisposable
         m_InGame_Move = m_InGame.FindAction("Move", throwIfNotFound: true);
         m_InGame_Jump = m_InGame.FindAction("Jump", throwIfNotFound: true);
         m_InGame_Drop = m_InGame.FindAction("Drop", throwIfNotFound: true);
+        m_InGame_Pause = m_InGame.FindAction("Pause", throwIfNotFound: true);
+        m_InGame_Restart = m_InGame.FindAction("Restart", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -227,6 +269,8 @@ public partial class @MasterInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_InGame_Move;
     private readonly InputAction m_InGame_Jump;
     private readonly InputAction m_InGame_Drop;
+    private readonly InputAction m_InGame_Pause;
+    private readonly InputAction m_InGame_Restart;
     public struct InGameActions
     {
         private @MasterInput m_Wrapper;
@@ -234,6 +278,8 @@ public partial class @MasterInput : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_InGame_Move;
         public InputAction @Jump => m_Wrapper.m_InGame_Jump;
         public InputAction @Drop => m_Wrapper.m_InGame_Drop;
+        public InputAction @Pause => m_Wrapper.m_InGame_Pause;
+        public InputAction @Restart => m_Wrapper.m_InGame_Restart;
         public InputActionMap Get() { return m_Wrapper.m_InGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -252,6 +298,12 @@ public partial class @MasterInput : IInputActionCollection2, IDisposable
                 @Drop.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnDrop;
                 @Drop.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnDrop;
                 @Drop.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnDrop;
+                @Pause.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnPause;
+                @Restart.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnRestart;
+                @Restart.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnRestart;
+                @Restart.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnRestart;
             }
             m_Wrapper.m_InGameActionsCallbackInterface = instance;
             if (instance != null)
@@ -265,6 +317,12 @@ public partial class @MasterInput : IInputActionCollection2, IDisposable
                 @Drop.started += instance.OnDrop;
                 @Drop.performed += instance.OnDrop;
                 @Drop.canceled += instance.OnDrop;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @Restart.started += instance.OnRestart;
+                @Restart.performed += instance.OnRestart;
+                @Restart.canceled += instance.OnRestart;
             }
         }
     }
@@ -274,5 +332,7 @@ public partial class @MasterInput : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
 }
