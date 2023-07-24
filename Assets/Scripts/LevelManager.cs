@@ -40,6 +40,15 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(id);
     }
 
+    private void OnLevelWasLoaded(int level)
+    {
+        LeanTween.reset();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }    
     private void OnEnable()
     {
         input.Enable();

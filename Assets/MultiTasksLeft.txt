@@ -1,0 +1,8 @@
+SetCharacterColour
+Create More Levels
+Add 2-3 New enemies
+Add Settings
+Add Quit Game
+Add Level collectables
+Add Move to Next Level
+Add Pause Game and time stop

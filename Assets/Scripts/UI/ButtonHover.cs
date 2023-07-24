@@ -44,8 +44,6 @@ public class ButtonHover : MonoBehaviour
 	{
 		hovering = hovering_;
 
-		Debug.Log("called");
-
 		if(hovering && scale)
 			LeanTween.value(text.fontSize, fontSize_ * scaleFactor, scaleTime).setEaseOutQuart().setOnUpdate(TweenText);
 		if(!hovering && scale)
