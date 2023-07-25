@@ -45,9 +45,9 @@ public class ButtonHover : MonoBehaviour
 		hovering = hovering_;
 
 		if(hovering && scale)
-			LeanTween.value(text.fontSize, fontSize_ * scaleFactor, scaleTime).setEaseOutQuart().setOnUpdate(TweenText);
+			LeanTween.value(text.fontSize, fontSize_ * scaleFactor, scaleTime).setEaseOutQuart().setOnUpdate(TweenText).setIgnoreTimeScale(true);
 		if(!hovering && scale)
-			LeanTween.value(text.fontSize, fontSize_, scaleTime).setEaseOutQuart().setOnUpdate(TweenText);
+			LeanTween.value(text.fontSize, fontSize_, scaleTime).setEaseOutQuart().setOnUpdate(TweenText).setIgnoreTimeScale(true);
 	}
     public void SetPressed(bool pressed_)
     {

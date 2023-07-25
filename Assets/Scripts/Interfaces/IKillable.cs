@@ -6,3 +6,7 @@ public interface IKillable
 {
     public void Kill();
 }
+public interface ICollectable
+{
+    public void Collect();
+}

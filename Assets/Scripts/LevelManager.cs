@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
     }
     public void LoadLevel(int id)
     {
+        Time.timeScale = 1f;
         StartCoroutine(LevelTransition(id));
     }
     public void ReloadLevel() 

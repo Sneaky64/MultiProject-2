@@ -1,9 +1,5 @@
 SetCharacterColour
 Create More Levels
-Add 2-3 New enemies
 Add Settings
-Add Level collectables
-Add Move to Next Level
-
 
 https://i.pinimg.com/originals/9c/ca/7b/9cca7b50b65883b87df42b7347a31fda.gif
