@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BackgroundScroll : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class BackgroundScroll : MonoBehaviour
     public float speed;
 
     [SerializeField]
-    private Renderer bgRenderer;
+    private Image bgRenderer;
 
     private void Update()
     {
