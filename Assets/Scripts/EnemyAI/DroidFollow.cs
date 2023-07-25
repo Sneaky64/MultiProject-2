@@ -18,6 +18,11 @@ public class DroidFollow : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (rb.velocity.x > 0)
+            GetComponent<SpriteRenderer>().flipX = true;
+        else
+            GetComponent<SpriteRenderer>().flipX = false;
+
         if (target == null)
             return;
         Vector2 start = new Vector2(transform.position.x, transform.position.y);

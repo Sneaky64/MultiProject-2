@@ -98,12 +98,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 0
+  speed: 200
   mask:
     serializedVersion: 2
     m_Bits: 503
   playerMask:
     serializedVersion: 2
     m_Bits: 128
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
+        m_MethodName: Kill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   spawnOffset: 2
+  rocketSpawnDelay: 5
   rocketGO: {fileID: 4473179939526736335, guid: d3d82e9c0a55c26449c8619d2904c099, type: 3}

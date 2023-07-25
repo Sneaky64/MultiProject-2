@@ -4913,13 +4913,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a81b67964d345f40a0a4435d8002fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 3
+  rotationSpeed: 2
   playerMask:
     serializedVersion: 2
     m_Bits: 128
   collisionMask:
     serializedVersion: 2
     m_Bits: 503
+  deathParticles: {fileID: 6809434484637858640, guid: f43b1512af364dd45ae47bf34782727a, type: 3}
 --- !u!50 &4754074709604855312
 Rigidbody2D:
   serializedVersion: 4

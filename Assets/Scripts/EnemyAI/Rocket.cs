@@ -12,6 +12,7 @@ public class Rocket : MonoBehaviour
     UnityEvent deathEvent;
     public LayerMask playerMask;
     public LayerMask collisionMask;
+    public GameObject deathParticles;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -29,6 +30,11 @@ public class Rocket : MonoBehaviour
         rb.velocity = transform.up.normalized * moveSpeed*Time.deltaTime;
     }
 
+    void SpawnParticles()
+    {
+        Instantiate(deathParticles, transform.position, Quaternion.identity).GetComponent<ParticleSystem>().Play();
+    }
+
     public void Setup(Transform target_, float speed_, UnityEvent event_)
     {
         target = target_;
@@ -44,6 +50,7 @@ public class Rocket : MonoBehaviour
             {
                 deathEvent.Invoke();
             }
+            SpawnParticles();
             Destroy(gameObject);
         }
     }
