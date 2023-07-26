@@ -21,11 +21,12 @@ public class Rocket : MonoBehaviour
     {
         if (target == null)
             Destroy(gameObject);
-        Vector3 dir = target.position - transform.position;
+        Vector3 target_ = new Vector3(target.position.x, target.position.y + 1.25f, target.position.z);
+
+        Vector3 dir = target_ - transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(angle-90, Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.fixedDeltaTime);
-
 
         rb.velocity = transform.up.normalized * moveSpeed*Time.deltaTime;
     }

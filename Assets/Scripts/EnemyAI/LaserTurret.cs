@@ -10,6 +10,7 @@ public class LaserTurret : MonoBehaviour
     public float activateTime;
     public LayerMask laserMask;
     public Transform firePoint;
+    public float startDelay = 0f;
 
     bool active;
 
@@ -41,7 +42,7 @@ public class LaserTurret : MonoBehaviour
         if (hit.collider != null)
             hit.collider.gameObject.GetComponent<IKillable>()?.Kill();
 
-        LeanTween.value(laserRenderer.GetPosition(1).x, hit.distance, activateTime).setEaseOutQuint().setOnUpdate(SetLength).setIgnoreTimeScale(true);
+        LeanTween.value(laserRenderer.GetPosition(1).x, -hit.distance, activateTime).setEaseOutQuint().setOnUpdate(SetLength).setIgnoreTimeScale(true);
         return;
     }
 
@@ -57,6 +58,7 @@ public class LaserTurret : MonoBehaviour
 
     private IEnumerator LaserLogic()
     {
+        yield return new WaitForSeconds(startDelay);
         while(true)
         {
             active = true;

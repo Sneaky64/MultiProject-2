@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 public class SetColour : MonoBehaviour
 {
     public Material playerMat;
@@ -13,23 +15,44 @@ public class SetColour : MonoBehaviour
     bool faceGlowing = true;
     bool coreGlowing = true;
 
+    public bool activeFace;
+    public bool activeBody;
+    public bool activeCore;
+
+    public Toggle faceToggle;
+    public Toggle coreToggle;
+    public Toggle bodyToggle;
+
     private void Awake()
     {
         playerMat.SetColor("_PlayerColour", defaultMaterial.GetColor("_PlayerColour"));
         playerMat.SetColor("_CoreColour", defaultMaterial.GetColor("_CoreColour") * intensityCore);
         playerMat.SetColor("_FaceColour", defaultMaterial.GetColor("_FaceColour") * intensityFace);
     }
-    public void SetPlayerColour()
+    private void Update()
     {
-        playerMat.SetColor("_PlayerColour", colour);
+        activeFace = faceToggle.isOn;
+        activeBody = bodyToggle.isOn;
+        activeCore = coreToggle.isOn;
+
+        if(activeFace)
+            playerMat.SetColor("_FaceColour", colour * intensityFace);
+        if(activeCore)
+            playerMat.SetColor("_CoreColour", colour * intensityCore);
+        if(activeBody)
+            playerMat.SetColor("_PlayerColour", colour);
     }
-    public void SetCoreColour()
+    public void SetPlayerColour(bool active_)
     {
-        playerMat.SetColor("_CoreColour", colour * intensityCore);
+        activeBody = active_;
     }
-    public void SetFaceColour()
+    public void SetCoreColour(bool active_)
     {
-        playerMat.SetColor("_FaceColour", colour * intensityFace);
+        activeCore = active_;
+    }
+    public void SetFaceColour(bool active_)
+    {
+        activeFace = active_;
     }
 
     public void ToggleFaceGlow()
@@ -43,7 +66,6 @@ public class SetColour : MonoBehaviour
         {
             intensityFace = 1f;
         }
-        SetFaceColour();
     }
 
     public void ToggleCoreGlow()
@@ -57,6 +79,5 @@ public class SetColour : MonoBehaviour
         {
             intensityCore = 1f;
         }
-        SetCoreColour();
     }
 }

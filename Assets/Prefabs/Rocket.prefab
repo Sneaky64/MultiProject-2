@@ -4913,7 +4913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a81b67964d345f40a0a4435d8002fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 2
+  rotationSpeed: 3
   playerMask:
     serializedVersion: 2
     m_Bits: 128

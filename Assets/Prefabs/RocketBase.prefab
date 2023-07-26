@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6655333393883096393}
   - component: {fileID: 6655333393883096394}
   - component: {fileID: 6655333393883096395}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RocketBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ MonoBehaviour:
   speed: 200
   mask:
     serializedVersion: 2
-    m_Bits: 503
+    m_Bits: 471
   playerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -120,6 +120,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  spawnOffset: 2
+  spawnOffset: 0
   rocketSpawnDelay: 5
   rocketGO: {fileID: 4473179939526736335, guid: d3d82e9c0a55c26449c8619d2904c099, type: 3}

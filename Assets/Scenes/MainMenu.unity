@@ -1934,7 +1934,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1294834930}
         m_TargetAssemblyTypeName: SetColour, Assembly-CSharp
         m_MethodName: SetFaceColour
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4109,6 +4109,12 @@ MonoBehaviour:
   playerMat: {fileID: 2100000, guid: 40c763a47c2cf3e499e01a72af26e078, type: 2}
   defaultMaterial: {fileID: 2100000, guid: 3e7818fceca6c224fbf535e34b4da207, type: 2}
   colour: {r: 0, g: 0.78431374, b: 1, a: 1}
+  activeFace: 0
+  activeBody: 0
+  activeCore: 0
+  faceToggle: {fileID: 19950735}
+  coreToggle: {fileID: 2074019965}
+  bodyToggle: {fileID: 119203004}
 --- !u!1 &584327056
 GameObject:
   m_ObjectHideFlags: 0
@@ -6430,6 +6436,12 @@ MonoBehaviour:
   playerMat: {fileID: 2100000, guid: 40c763a47c2cf3e499e01a72af26e078, type: 2}
   defaultMaterial: {fileID: 2100000, guid: 3e7818fceca6c224fbf535e34b4da207, type: 2}
   colour: {r: 1, g: 0, b: 0, a: 1}
+  activeFace: 0
+  activeBody: 0
+  activeCore: 0
+  faceToggle: {fileID: 1943575281}
+  coreToggle: {fileID: 1752203343}
+  bodyToggle: {fileID: 1581178527}
 --- !u!1 &913077474
 GameObject:
   m_ObjectHideFlags: 0
@@ -7881,6 +7893,12 @@ MonoBehaviour:
   playerMat: {fileID: 2100000, guid: 40c763a47c2cf3e499e01a72af26e078, type: 2}
   defaultMaterial: {fileID: 2100000, guid: 3e7818fceca6c224fbf535e34b4da207, type: 2}
   colour: {r: 0, g: 1, b: 0, a: 1}
+  activeFace: 0
+  activeBody: 0
+  activeCore: 0
+  faceToggle: {fileID: 1122798855}
+  coreToggle: {fileID: 690588350}
+  bodyToggle: {fileID: 506910902}
 --- !u!1 &1122798853
 GameObject:
   m_ObjectHideFlags: 0
@@ -10083,6 +10101,12 @@ MonoBehaviour:
   playerMat: {fileID: 2100000, guid: 40c763a47c2cf3e499e01a72af26e078, type: 2}
   defaultMaterial: {fileID: 2100000, guid: 3e7818fceca6c224fbf535e34b4da207, type: 2}
   colour: {r: 1, g: 1, b: 1, a: 1}
+  activeFace: 0
+  activeBody: 0
+  activeCore: 0
+  faceToggle: {fileID: 295922500}
+  coreToggle: {fileID: 342188751}
+  bodyToggle: {fileID: 1622988788}
 --- !u!1 &1300672753
 GameObject:
   m_ObjectHideFlags: 0

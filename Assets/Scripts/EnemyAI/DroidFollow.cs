@@ -8,6 +8,7 @@ public class DroidFollow : MonoBehaviour
     public float speed;
     public LayerMask mask;
     public LayerMask playerMask;
+    Vector3 target_;
 
     Rigidbody2D rb;
 
@@ -18,6 +19,7 @@ public class DroidFollow : MonoBehaviour
 
     private void FixedUpdate()
     {
+        target_ = new Vector3(target.position.x, target.position.y + 1.25f, target.position.z);
         if (rb.velocity.x > 0)
             GetComponent<SpriteRenderer>().flipX = true;
         else
