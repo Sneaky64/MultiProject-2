@@ -2,18 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour, IKillable
 {
     public ParticleSystem deathParticles;
     public UnityEvent deathEvent, pauseEvent, playEvent;
     public Vector3 offset;
-    private MasterInput input;
     bool paused = false;
-    private void Awake()
-    {
-        input = new();
-    }
+    public InputActionReference input;
+
     public void Kill()
     {
         // Play a sound
@@ -27,7 +25,7 @@ public class PlayerManager : MonoBehaviour, IKillable
 
     private void Update()
     {
-        input.InGame.Pause.performed += ctx => Pause();
+        input.action.performed += ctx => Pause();
     }
 
     void Pause()
@@ -46,11 +44,11 @@ public class PlayerManager : MonoBehaviour, IKillable
     #region Enable Disable
     private void OnEnable()
     {
-        input.Enable();
+        input.action.Enable();
     }
     private void OnDisable()
     {
-        input.Disable();
+        input.action.Disable();
     }
     #endregion
 }

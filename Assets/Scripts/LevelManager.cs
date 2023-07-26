@@ -1,20 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
-    private MasterInput input;
+    public InputActionReference input;
     public Animator transitionAnimator;
     public float delay;
 
     private void Awake()
     {
         instance = this;
-
-        input = new();
     }
     public void LoadLevel(int id)
     {
@@ -35,7 +34,7 @@ public class LevelManager : MonoBehaviour
     {
         if(SceneManager.GetActiveScene().buildIndex != 0)
         {
-            input.InGame.Restart.performed += _ => ReloadLevel();
+            input.action.performed += _ => ReloadLevel();
         }
     }
 
@@ -57,10 +56,14 @@ public class LevelManager : MonoBehaviour
     }    
     private void OnEnable()
     {
-        input.Enable();
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+            return;
+        input.action.Enable();
     }
     private void OnDisable()
-    { 
-        input.Disable();
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+            return;
+        input.action.Disable();
     }
 }

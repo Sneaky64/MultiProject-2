@@ -493,6 +493,7 @@ MonoBehaviour:
   wallJumpForce: 18.5
   slideGravity: 0.2
   moveDelay: 0.2
+  jump: {fileID: 7187178564012431249, guid: 9f3c6c4c44146f24d8f7fff59b4c35c9, type: 3}
 --- !u!50 &3938585868855241687
 Rigidbody2D:
   serializedVersion: 4
@@ -566,7 +567,7 @@ MonoBehaviour:
   - {x: 0.5, y: 0, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 39838
+  m_InstanceId: 149816
 --- !u!114 &7747243277564843178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -579,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0651806ba433134da185c685b2183f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathParticles: {fileID: 0}
+  deathParticles: {fileID: 4038754944623156883, guid: dec01101dcc3f2c4db0521afd957db72, type: 3}
   deathEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -590,6 +591,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   offset: {x: 0, y: 0, z: 0}
+  input: {fileID: -3622878813386876181, guid: 9f3c6c4c44146f24d8f7fff59b4c35c9, type: 3}
 --- !u!61 &8324741646141629015
 BoxCollider2D:
   m_ObjectHideFlags: 0

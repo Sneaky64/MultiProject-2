@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
     Animator animator;
     MasterInput input;
+    public InputActionReference jump;
     Rigidbody2D rb;
     SpriteRenderer playerSprite;
 
@@ -57,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         playerSprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
 
-        input = new MasterInput();
+        input = new();
 
         defaultScale = transform.localScale;
     }
@@ -71,13 +72,13 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("grounded", grounded);
         animator.SetBool("touchingWall", touchingWall);
 
-        if (!touchingWall || rb.velocity.y >= 0f || input.InGame.Drop.IsPressed())
+        if (!touchingWall || rb.velocity.y >= 0f || jump.action.IsPressed())
         {
             wallDoubleFix = false;
             Jump();
         }
 
-        if (touchingWall && (rb.velocity.y <=0f || !input.InGame.Jump.IsPressed()) && !input.InGame.Drop.IsPressed())
+        if (touchingWall && (rb.velocity.y <=0f || !jump.action.IsPressed()) && !input.InGame.Drop.IsPressed())
             WallJump();
 
         if (!grounded)
@@ -160,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Jump()
     {
-        if(input.InGame.Jump.IsPressed() && jumpCount > 0 && doubleFix == false)
+        if(jump.action.IsPressed() && jumpCount > 0 && doubleFix == false)
         {
             rb.gravityScale = gravityScale;
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
@@ -199,7 +200,7 @@ public class PlayerMovement : MonoBehaviour
             currentVelocity = 0f;
             rb.gravityScale = 0f;
         }
-        if (input.InGame.Jump.WasPressedThisFrame() && touchingWall && !wallDoubleFix)
+        if (jump.action.WasPressedThisFrame() && touchingWall && !wallDoubleFix)
         {
             slideCount = 0;
             wallDoubleFix = true;
@@ -251,10 +252,12 @@ public class PlayerMovement : MonoBehaviour
 	private void OnEnable()
     {
         input.Enable();
+        jump.action.Enable();
     }
     private void OnDisable()
     {
         input.Disable();
+        jump.action.Disable();
     }
 	#endregion
 	#endregion

@@ -44,5 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af0b4fd85239b3478cf9dd705d6db37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  input: {fileID: 1734326462896669614, guid: 9f3c6c4c44146f24d8f7fff59b4c35c9, type: 3}
   transitionAnimator: {fileID: 0}
   delay: 1.25

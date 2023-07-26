@@ -68,8 +68,8 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Colour: {r: 0, g: 4.799999, b: 8, a: 1}
-    - _CoreColour: {r: 0, g: 3.8584468, b: 10.680627, a: 1}
-    - _FaceColour: {r: 0, g: 20.831373, b: 23.968628, a: 1}
+    - _CoreColour: {r: 0, g: 323.7647, b: 479.37256, a: 20}
+    - _FaceColour: {r: 0, g: 321.2549, b: 479.37256, a: 100}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColour: {r: 0, g: 0, b: 0, a: 0}
     - _PlayerColour: {r: 1, g: 1, b: 1, a: 1}
