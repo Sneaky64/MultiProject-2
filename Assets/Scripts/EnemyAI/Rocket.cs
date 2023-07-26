@@ -21,7 +21,7 @@ public class Rocket : MonoBehaviour
     {
         if (target == null)
             Destroy(gameObject);
-        Vector3 target_ = new Vector3(target.position.x, target.position.y + 1.25f, target.position.z);
+        Vector3 target_ = new Vector3(target.position.x, target.position.y + .5f, target.position.z);
 
         Vector3 dir = target_ - transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

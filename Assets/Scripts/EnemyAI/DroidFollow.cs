@@ -19,7 +19,6 @@ public class DroidFollow : MonoBehaviour
 
     private void FixedUpdate()
     {
-        target_ = new Vector3(target.position.x, target.position.y + 1.25f, target.position.z);
         if (rb.velocity.x > 0)
             GetComponent<SpriteRenderer>().flipX = true;
         else
@@ -27,8 +26,9 @@ public class DroidFollow : MonoBehaviour
 
         if (target == null)
             return;
+        target_ = new Vector3(target.position.x, target.position.y + .5f, target.position.z);
         Vector2 start = new Vector2(transform.position.x, transform.position.y);
-        Vector2 end = new Vector2(target.position.x, target.position.y);
+        Vector2 end = new Vector2(target_.x, target_.y);
         Vector2 dir = end - start;
 
         Debug.DrawRay(start, dir, Color.green, 0.1f);
