@@ -480,6 +480,7 @@ MonoBehaviour:
   inverseAccMulti: 1.25
   maxVelocity: 8
   turnSpeed: 1.5
+  jumpWindow: 0.3
   jumpSpeed: 8
   jumpTime: 0.3
   jumpAccelerationMultiplier: 0.75

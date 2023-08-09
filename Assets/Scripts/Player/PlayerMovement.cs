@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     float accelerationMultiplier;
     public float maxVelocity;
     public float turnSpeed;
+    public float jumpWindow;
+    float jumpWindowCounter;
 
     bool grounded, doubleFix;
     float jumpCount, currentVelocity;
@@ -68,9 +70,21 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         moveDelayCount -= Time.deltaTime;
+        jumpWindowCounter -= Time.deltaTime;
         animator.SetFloat("y", rb.velocity.y);
         animator.SetBool("grounded", grounded);
         animator.SetBool("touchingWall", touchingWall);
+
+        if (touchingWall && !grounded)
+            jumpWindowCounter = jumpWindow;
+
+        if (!touchingWall)
+		{
+            slideCount = 0;
+        }
+
+        if (grounded)
+            jumpWindowCounter = 0;
 
         if (!touchingWall || rb.velocity.y >= 0f || jump.action.IsPressed())
         {
@@ -78,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
             Jump();
         }
 
-        if (touchingWall && (rb.velocity.y <=0f || !jump.action.IsPressed()) && !input.InGame.Drop.IsPressed())
+        if (jumpWindowCounter>0 && (rb.velocity.y <=0f || !jump.action.IsPressed()) && !input.InGame.Drop.IsPressed())
             WallJump();
 
         if (!grounded)
@@ -190,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
     private void WallJump()
     {
         slideCount -= Time.deltaTime;
-        if (slideCount <= 0 && !wallDoubleFix)
+        if (slideCount <= 0 && !wallDoubleFix && touchingWall)
         {
             rb.gravityScale = slideGravity;
         }
@@ -200,12 +214,15 @@ public class PlayerMovement : MonoBehaviour
             currentVelocity = 0f;
             rb.gravityScale = 0f;
         }
-        if (jump.action.WasPressedThisFrame() && touchingWall && !wallDoubleFix)
+        if (jump.action.WasPressedThisFrame() && jumpWindowCounter>0 && !wallDoubleFix)
         {
             slideCount = 0;
             wallDoubleFix = true;
 
             Vector2 jump = jumpDir;
+
+            if (!touchingWall)
+                jump.x *= -1f;
 
             currentVelocity = jump.x *= wallJumpForce * Mathf.Clamp(transform.localScale.x, -1f, 1f);
             jump.y *= wallJumpForce;
